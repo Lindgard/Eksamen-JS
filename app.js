@@ -7,9 +7,12 @@ async function getUsers() {
 }
 
 // async funksjon for å legge informasjon fra fetch inn i array
-//apiUsers = getUsers();
+placeDataArray = async (apiUsers) => {
+  apiUsers = await getUsers();
+  console.log(apiUsers);
+};
 
-console.log(apiUsers);
+placeDataArray();
 
 // funksjon for å printe til DOM/browser med callback til en print-funksjon
 // som henter informasjon fra enten input eller API, så parametere til dette
