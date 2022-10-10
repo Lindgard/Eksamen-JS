@@ -31,4 +31,10 @@
 
 ### Oppgave beskrivelse
 
-Lage en kurs registrerings-app med data fra [Random User](https://randomuser.me/api/). Brukervennlighet i browser fikses via CSS siste to dagene. RYDDIG, GJENNBRUKBAR KODE!
+Lage en kurs registrerings-app med data fra [Random User](https://randomuser.me/api/). Brukervennlighet i browser fikses via CSS siste to dagene.
+
+# RYDDIG, GJENNBRUKBAR KODE!
+
+#### Author
+
+André Lindgård
