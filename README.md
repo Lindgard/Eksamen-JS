@@ -8,7 +8,7 @@
    3. [ ] Update
    4. [ ] Delete
 2. [x] Fetch
-3. [ ] Arrays med objects
+3. [x] Arrays med objects
    1. [ ] Map
    2. [ ] Filter
    3. [ ] Splice
@@ -19,7 +19,7 @@
    2. [ ] While
    3. [ ] ForEach
    4. [ ] To Be Continued
-6. [ ] addEventListener og/eller onclick
+6. [x] addEventListener og/eller onclick
 7. [ ] Math.Random()
 8. [ ] classList.add og classList.remove
 9. [ ] PARAMETERE

@@ -21,12 +21,14 @@ const nameValid = /^[A-Za-z ]+$/;
 const emailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const phoneValid = /^\+(?:[0-9]\x20?){6,14}[0-9]$/;
 
-const inputData = [];
-getInput = () => {
-  const nameInput = document.getElementById("name-input");
-  const emailInput = document.getElementById("email-input");
-  const phoneInput = document.getElementById("phone-input");
+// Input-fields from HTML
+const nameInput = document.getElementById("name-input");
+const emailInput = document.getElementById("email-input");
+const phoneInput = document.getElementById("phone-input");
 
+const inputData = [];
+
+validateInput = () => {
   if (
     nameInput.value.match(nameValid) &&
     emailInput.value.match(emailValid) &&
@@ -56,6 +58,7 @@ getInput = () => {
   }
 };
 
-const newUserBtn = document.getElementById("input-btn");
+// Button from HTML for validating and printing to list
 
-newUserBtn.addEventListener("click", getInput);
+const newUserBtn = document.getElementById("input-btn");
+newUserBtn.addEventListener("click", validateInput);
