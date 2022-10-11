@@ -1,10 +1,12 @@
+// SE README FOR NOTATER OM HVA SOM TRENGS
+
 const apiUsers = [];
 
-async function getUsers() {
+getUsers = async () => {
   const response = await fetch("https://randomuser.me/api/?results=50");
   const jsonData = await response.json();
   return jsonData.results;
-}
+};
 
 // async funksjon for å legge informasjon fra fetch inn i array
 placeDataArray = async (apiUsers) => {
@@ -14,10 +16,14 @@ placeDataArray = async (apiUsers) => {
 
 placeDataArray();
 
-// funksjon for å printe til DOM/browser med callback til en print-funksjon
-// som henter informasjon fra enten input eller API, så parametere til dette
+// Regex for validation of input
+const nameValid = /^[A-Za-z ]+$/;
+const emailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const phoneValid = /^\+(?:[0-9]\x20?){6,14}[0-9]$/;
 
-// CRUD!!!!!!!!!!!!!!!!
-// array-methods, math.random(), addEventListener +/ Onclick, prompt + alert, loop
-// createElement, classList.add og remove, søkefunksjonalitet, filtrering, kart for
-// lokasjon fra array-data basert på coordinater i objektets informasjon
+const inputData = [];
+getInput = (inputData) => {
+  const nameInput = document.getElementById("user-input");
+  const emailInput = document.getElementById("email-input");
+  const phoneInput = document.getElementById("phone-input");
+};
