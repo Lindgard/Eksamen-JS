@@ -26,4 +26,31 @@ getInput = (inputData) => {
   const nameInput = document.getElementById("user-input");
   const emailInput = document.getElementById("email-input");
   const phoneInput = document.getElementById("phone-input");
+
+  if (
+    nameInput.value.match(nameValid) &&
+    emailInput.value.match(emailValid) &&
+    phoneInput.value.match(phoneValid)
+  ) {
+    inputData.push({
+      Name: nameInput.value,
+      Email: emailInput.value,
+      Phone: phoneInput.value,
+    });
+  } else if (
+    nameInput.value.match(nameValid) &&
+    emailInput.value.match(emailValid)
+  ) {
+    alert("Please add a valid phone-number.");
+  } else if (
+    nameInput.value.match(nameValid) &&
+    phoneInput.value.match(phoneValid)
+  ) {
+    alert("Please add a valid email.");
+  } else if (
+    emailInput.value.match(emailValid) &&
+    phoneInput.value.match(phoneValid)
+  ) {
+    alert("Name cannot contain numbers or special characters.");
+  }
 };
