@@ -5,7 +5,17 @@ const apiUsers = [];
 getUsers = async () => {
   const response = await fetch("https://randomuser.me/api/?results=50");
   const jsonData = await response.json();
-  return jsonData.results;
+  return jsonData.results.map((user) => {
+    return {
+      Name: user.name,
+      Email: user.email,
+      Phone: user.phone,
+      City: user.location,
+      Gender: user.gender,
+      Dob: user.dob,
+      Nationality: user.nat,
+    };
+  });
 };
 
 // async funksjon for å legge informasjon fra fetch inn i array
@@ -28,6 +38,7 @@ const phoneInput = document.getElementById("phone-input");
 
 const inputData = [];
 
+// validation-test
 validateInput = () => {
   if (
     nameInput.value.match(nameValid) &&
@@ -62,3 +73,10 @@ validateInput = () => {
 
 const newUserBtn = document.getElementById("input-btn");
 newUserBtn.addEventListener("click", validateInput);
+
+// Print-funksjon for å lage liste synlig på siden med 10 brukere
+// pluss data fra input-felt med påmeldings-dropdown
+const userList = document.getElementById("user-list");
+
+// const mergedArray = [...apiUsers, ...inputData];
+// console.log(mergedArray);
