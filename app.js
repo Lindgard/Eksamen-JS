@@ -14,6 +14,7 @@ getUsers = async () => {
       Gender: user.gender,
       Dob: user.dob,
       Nationality: user.nat,
+      Image: user.picture,
     };
   });
 };
@@ -74,9 +75,17 @@ validateInput = () => {
 const newUserBtn = document.getElementById("input-btn");
 newUserBtn.addEventListener("click", validateInput);
 
-// Print-funksjon for å lage liste synlig på siden med 10 brukere
-// pluss data fra input-felt med påmeldings-dropdown
+// Print-funksjon for å lage liste synlig på siden med 9 brukere
+// fra API pluss data fra input-felt med påmeldings-dropdown
 const userList = document.getElementById("user-list");
 
-// const mergedArray = [...apiUsers, ...inputData];
-// console.log(mergedArray);
+printUsersToPage = (apiUsers, inputData) => {
+  // const mergedArray = [...apiUsers, ...inputData];
+  // console.log(mergedArray);
+
+  for (let i = 0; i < mergedArray.length; i++) {
+    // print i loop for hver index til index 9 pluss
+    // siste index i mergedArray for input data
+    // som list item i userList hentet fra HTML
+  }
+};
