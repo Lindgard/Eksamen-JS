@@ -89,11 +89,8 @@ printUsersToPage = (apiUsers, inputData) => {
     /*add courseList for use in courses-tab in list */
     userList.appendChild(listItem);
   }
-  apiUsers.unshift(inputData);
 };
 
-setTimeout(() => {
-  printUsersToPage();
-}, "100");
+printUsersToPage(apiUsers, inputData);
 
 //const courseList =
