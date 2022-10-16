@@ -15,7 +15,7 @@
    4. [ ] To Be Continued
 4. [ ] If/Else
 5. [ ] Loops
-   1. [ ] For
+   1. [x] For
    2. [ ] While
    3. [ ] ForEach
    4. [ ] To Be Continued

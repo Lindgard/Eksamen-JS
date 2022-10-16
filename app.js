@@ -2,8 +2,8 @@
 
 const apiUsers = [];
 
-getUsers = async () => {
-  const response = await fetch("https://randomuser.me/api/?results=10");
+getUsers = async (amount) => {
+  const response = await fetch(`https://randomuser.me/api/?results=${amount}`);
   const jsonData = await response.json();
   return jsonData.results.map((user) => {
     return {
@@ -20,7 +20,7 @@ getUsers = async () => {
 };
 
 placeDataArray = async (apiUsers) => {
-  apiUsers = await getUsers();
+  apiUsers = await getUsers(10);
   console.log(apiUsers);
 };
 
@@ -47,6 +47,7 @@ validateInput = () => {
       Email: emailInput.value,
       Phone: phoneInput.value,
     });
+    //localStorage.setItem(nameInput, emailInput, phoneInput);
     console.log(inputData);
   } else if (
     nameInput.value.match(nameValid) &&
@@ -74,12 +75,25 @@ newUserBtn.addEventListener("click", validateInput);
 const userList = document.getElementById("user-list");
 
 printUsersToPage = (apiUsers, inputData) => {
-  const mergedArray = [...apiUsers, ...inputData];
-  // console.log(mergedArray);
+  /*setTimeout til 0,1 sekund etter load av side */
+  const mergedArray = [...inputData, ...apiUsers];
   userList.innerHTML = "";
   for (let i = 0; i < mergedArray.length; i++) {
-    // print-loop for hver index til index 9 pluss
-    // siste index i mergedArray for input data
-    // som list item i userList hentet fra HTML
+    const listItem = document.createElement("li");
+    listItem.innerHTML = ` 
+      <h3>${mergedArray[i].name}</h3>
+      <p>Email:${mergedArray[i].email}</p>
+      <p>Telephone:${mergedArray[i].phone}</p>
+      <p>Courses: </p>
+      `;
+    /*add courseList for use in courses-tab in list */
+    userList.appendChild(listItem);
   }
+  apiUsers.unshift(inputData);
 };
+
+setTimeout(() => {
+  printUsersToPage();
+}, "100");
+
+//const courseList =
