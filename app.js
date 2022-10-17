@@ -26,7 +26,7 @@ placeDataArray = async (apiUsers) => {
 
 placeDataArray();
 
-const nameValid = /^[A-Za-z ]+$/;
+const nameValid = /^[A-Za-z|æøåÆØÅ ]+$/;
 const emailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const phoneValid = /^\+(?:[0-9]\x20?){6,14}[0-9]$/;
 
@@ -73,24 +73,41 @@ newUserBtn.addEventListener("click", validateInput);
 // Print-funksjon for å lage liste synlig på siden med 9 brukere
 // fra API pluss data fra input-felt med påmeldings-dropdown
 const userList = document.getElementById("user-list");
+userList.classList.add("list-div");
 
-printUsersToPage = (apiUsers, inputData) => {
-  /*setTimeout til 0,1 sekund etter load av side */
+printUsersToPage = (apiUsers, inputData, userList) => {
   const mergedArray = [...inputData, ...apiUsers];
   userList.innerHTML = "";
   for (let i = 0; i < mergedArray.length; i++) {
     const listItem = document.createElement("li");
+    listItem.classList.add("list-item");
     listItem.innerHTML = ` 
-      <h3>${mergedArray[i].name}</h3>
-      <p>Email:${mergedArray[i].email}</p>
-      <p>Telephone:${mergedArray[i].phone}</p>
-      <p>Courses: </p>
-      `;
-    /*add courseList for use in courses-tab in list */
+    <h3>${mergedArray[i].name}</h3>
+    <p>Email:${mergedArray[i].email}</p>
+    <p>Telephone:${mergedArray[i].phone}</p>
+    <p>Courses: </p>
+    `;
     userList.appendChild(listItem);
+    listItem.appendChild(expandCoursesBtn);
   }
 };
 
 printUsersToPage(apiUsers, inputData);
 
-//const courseList =
+const expandCoursesBtn = document.createElement("button");
+expandCoursesBtn.innerHTML = "+";
+expandCoursesBtn.addEventListener("click", createCourseList);
+
+createCourseList = (checboxCourses) => {
+  const courseList = document.createElement("ul");
+  courseList.forEach((course) => {
+    course.innerHTML = `<h4>${course.name} ${checboxCourses}</h4>`;
+  });
+};
+
+createCourseList(checboxCourses);
+
+checboxCourses = () => {
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+};
