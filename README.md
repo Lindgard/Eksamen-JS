@@ -17,12 +17,12 @@
 5. [ ] Loops
    1. [x] For
    2. [ ] While
-   3. [ ] ForEach
+   3. [x] ForEach
    4. [ ] To Be Continued
 6. [x] addEventListener og/eller onclick
 7. [ ] Math.Random()
-8. [ ] classList.add og classList.remove
-9. [ ] PARAMETERE
+8. [x] classList.add og classList.remove
+9. [x] PARAMETERE
 10. [ ] localStorage
 11. [ ] Tillegg
     1. [ ] Søkefunksjonalitet
