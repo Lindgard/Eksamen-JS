@@ -1,5 +1,3 @@
-// SE README FOR NOTATER OM HVA SOM TRENGS
-
 const apiUsers = [];
 
 getUsers = async (amount) => {
@@ -26,7 +24,7 @@ placeDataArray = async (apiUsers) => {
 
 placeDataArray();
 
-const nameValid = /^[A-Za-z|æøåÆØÅ ]+$/;
+const nameValid = /^[A-Za-z|æøåÆØÅ ]+$/; //la til at navn skal kunne inneholde norske bokstaver
 const emailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const phoneValid = /^\+(?:[0-9]\x20?){6,14}[0-9]$/;
 
@@ -47,7 +45,6 @@ validateInput = () => {
       Email: emailInput.value,
       Phone: phoneInput.value,
     });
-    //localStorage.setItem(nameInput, emailInput, phoneInput);
     console.log(inputData);
   } else if (
     nameInput.value.match(nameValid) &&
@@ -70,16 +67,73 @@ validateInput = () => {
 const newUserBtn = document.getElementById("input-btn");
 newUserBtn.addEventListener("click", validateInput);
 
-// Print-funksjon for å lage liste synlig på siden med 9 brukere
-// fra API pluss data fra input-felt med påmeldings-dropdown
-const userList = document.getElementById("user-list");
-userList.classList.add("list-div");
+// array for course-examples
+const courses = [
+  {
+    id: 1,
+    name: "HTML and its role in web development",
+  },
+  {
+    id: 2,
+    name: "JavaScript for beginners",
+  },
+  {
+    id: 3,
+    name: "TypeScript explained",
+  },
+  {
+    id: 4,
+    name: "NodeJS introduction",
+  },
+  {
+    id: 5,
+    name: "C# explained",
+  },
+];
 
-printUsersToPage = (apiUsers, inputData, userList) => {
+// creation of course-list with checkboxes for registration of chosen courses
+createCourseList = (checboxCourses) => {
+  const courseList = document.createElement("ul");
+  // forEach her eller i checkboxCourses?
+  courses.forEach((course) => {
+    course.innerHTML = `<h4>${checboxCourses}</h4>`;
+    courseList.appendChild(course);
+  });
+};
+
+createCourseList(checboxCourses);
+
+// checkbox-creation for course-list
+checboxCourses = (courses) => {
+  courses.forEach(() => {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = "course-checkbox";
+
+    const checkboxLabel = document.createElement("label");
+    checkboxLabel.innerHTML = `${courses.name}`;
+    checkboxLabel.htmlFor = "course-checkbox";
+    // lagre i localStorage kanskje?
+  });
+};
+
+// button for showing list of  courses and additional information from list
+// used in printUsersToPage
+const expandCoursesBtn = document.createElement("button");
+expandCoursesBtn.classList.add("expand-btn");
+expandCoursesBtn.innerHTML = "+";
+expandCoursesBtn.addEventListener("click", createCourseList);
+
+// Print-funksjon for å lage liste synlig på siden med 9 brukere
+// fra API pluss data fra input-felt med kurs i dropdown via knapp lagd over
+printUsersToPage = (apiUsers, inputData) => {
   const mergedArray = [...inputData, ...apiUsers];
+  const userList = document.getElementById("user-list");
+  userList.classList.add("list-div");
   userList.innerHTML = "";
   for (let i = 0; i < mergedArray.length; i++) {
     const listItem = document.createElement("li");
+    /* classlist.add for later removal with delete-function */
     listItem.classList.add("list-item");
     listItem.innerHTML = ` 
     <h3>${mergedArray[i].name}</h3>
@@ -87,27 +141,14 @@ printUsersToPage = (apiUsers, inputData, userList) => {
     <p>Telephone:${mergedArray[i].phone}</p>
     <p>Courses: </p>
     `;
-    userList.appendChild(listItem);
     listItem.appendChild(expandCoursesBtn);
   }
+  userList.appendChild(listItem);
 };
 
 printUsersToPage(apiUsers, inputData);
 
-const expandCoursesBtn = document.createElement("button");
-expandCoursesBtn.innerHTML = "+";
-expandCoursesBtn.addEventListener("click", createCourseList);
-
-createCourseList = (checboxCourses) => {
-  const courseList = document.createElement("ul");
-  courseList.forEach((course) => {
-    course.innerHTML = `<h4>${course.name} ${checboxCourses}</h4>`;
-  });
-};
-
-createCourseList(checboxCourses);
-
-checboxCourses = () => {
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
+// delete user from list
+deleteUser = () => {
+  this.remove();
 };
