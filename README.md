@@ -27,7 +27,6 @@
 11. [ ] Tillegg
     1. [ ] Søkefunksjonalitet
     2. [ ] Filtreringsfunksjonalitet
-    3. [ ] Kart som bruker lokasjons-data på objekt fra API
 
 ### Oppgave beskrivelse
 
