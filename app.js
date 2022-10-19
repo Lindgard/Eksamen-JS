@@ -1,4 +1,4 @@
-const apiUsers = [];
+let usersArray = [];
 
 getUsers = async (amount) => {
   const response = await fetch(`https://randomuser.me/api/?results=${amount}`);
@@ -16,13 +16,38 @@ getUsers = async (amount) => {
   });
 };
 
-placeDataArray = async (apiUsers) => {
-  apiUsers = await getUsers(10);
-  console.log(apiUsers);
-  printUsersToPage("user-list", apiUsers, inputData);
+placeDataArray = async () => {
+  const newUsers = await getUsers(10);
+  usersArray = [...newUsers, ...usersArray];
+  console.log(usersArray);
+  printUsersToPage("user-list", usersArray);
 };
 
 placeDataArray();
+
+// array for course-examples
+const courses = [
+  {
+    id: 1,
+    name: "HTML and its role in web development",
+  },
+  {
+    id: 2,
+    name: "JavaScript for beginners",
+  },
+  {
+    id: 3,
+    name: "TypeScript",
+  },
+  {
+    id: 4,
+    name: "NodeJS introduction",
+  },
+  {
+    id: 5,
+    name: "C# explained",
+  },
+];
 
 // Print-funksjon for å lage liste synlig på siden med 9 brukere
 // fra API pluss data fra input-felt med kurs i dropdown via knapp lagd over
@@ -33,11 +58,11 @@ expandedUser = (listId, createInput, courses) => {
     const listItem = document.getElementById(listId);
     const details = document.createElement("div");
     details.setAttribute("id", `${listId}-details`);
-    details.innerHTML = "testing";
     details.appendChild(
       createInput({
         type: "checkbox",
         id: `checkbox-${listId}`,
+        /*value: `${courses[i].name}`,*/
       })
     );
     listItem.appendChild(details);
@@ -46,45 +71,84 @@ expandedUser = (listId, createInput, courses) => {
   }
 };
 
-printUsersToPage = (listId, apiUsers, inputData) => {
-  const mergedArray = [...inputData, ...apiUsers];
+printUsersToPage = (listId, usersArray) => {
   const userList = document.getElementById(listId);
   userList.innerHTML = "";
-  for (let i = 0; i < mergedArray.length; i++) {
-    const user = mergedArray[i];
+  for (let i = 0; i < usersArray.length; i++) {
+    const user = usersArray[i];
     const listItem = document.createElement("li");
     listItem.setAttribute("id", `user-${i}`);
     listItem.setAttribute("class", "list-item");
     listItem.appendChild(
       createElement({
         type: "p",
-        value: `${user.name.first} ${user.name.last}`,
+        value: `Name: ${user.name.first} ${user.name.last}`,
       })
     );
+    if (user.dob !== undefined) {
+      listItem.appendChild(
+        createElement({ type: "p", value: `${user.dob.date}` })
+      );
+    }
+    if (user.email !== undefined) {
+      listItem.appendChild(
+        createElement({
+          type: "p",
+          value: `Phone: ${user.phone} Email: ${user.email}`,
+        })
+      );
+    }
+    if (user.city !== undefined) {
+      listItem.appendChild(
+        createElement({
+          type: "p",
+          value: `City: ${user.city.city}, ${user.city.country}`,
+        })
+      );
+    }
+    if (user.image !== undefined) {
+      listItem.appendChild(
+        createElement({
+          type: "img",
+          value: `${user.image.thumbnail}`,
+        })
+      );
+    }
     listItem.appendChild(
-      createElement({
-        type: "p",
-        value: `${user.phone}`,
-      })
-    );
-    listItem.appendChild(
-      createElement({
-        type: "p",
-        value: `${user.city.city}, ${user.city.country}`,
-      })
-    );
-    listItem.appendChild(
-      createElement({
-        type: "img",
-        value: `${user.image.thumbnail}`,
-      })
-    );
-    listItem.addEventListener("click", () => {
+      createInput({
+        type: "button",
+        value: "Edit",
+        onclick: onChange,
+        onChange: () => {
+          addEventListener("click", () => {
       expandedUser(`user-${i}`, createInput, courses);
     });
+        },
+      })
+    );
+    listItem.appendChild(createInput({
+      type: 'button',
+      value: 'Courses',
+      id: "courses-btn"
+      addEventListener("click", () => {
+      expandedUser(`user-${i}`, createInput, courses);
+    });
+    }))
     userList.appendChild(listItem);
   }
 };
+
+//button for expanding list
+const moreUsers = document.createElement("button");
+moreUsers.addEventListener("click", printUsersToPage);
+
+//update-function
+setUser = (user) => {
+  console.log("klikket på bruker", user);
+  user = nameInput.value;
+};
+
+updateUser = () => {};
 
 // creation of inputs and elements for list in DOM
 const createInput = ({ type, onClick, value, onChange }) => {
@@ -122,10 +186,9 @@ const phoneValid = /^\+(?:[0-9]\x20?){6,14}[0-9]$/;
 
 // Input-felt hentet fra HTML
 const nameInput = document.getElementById("name-input");
+nameInput.setAttribute("value", " ");
 const emailInput = document.getElementById("email-input");
 const phoneInput = document.getElementById("phone-input");
-
-const inputData = [];
 
 validateInput = () => {
   if (
@@ -133,12 +196,16 @@ validateInput = () => {
     emailInput.value.match(emailValid) &&
     phoneInput.value.match(phoneValid)
   ) {
-    inputData.push({
-      Name: nameInput.value,
-      Email: emailInput.value,
-      Phone: phoneInput.value,
+    usersArray.push({
+      name: {
+        first: nameInput.value.split(" ")[0],
+        last: nameInput.value.split(" ")[1],
+      },
+      email: emailInput.value,
+      phone: phoneInput.value,
     });
-    console.log(inputData);
+    printUsersToPage("user-list", usersArray);
+    console.log(usersArray);
   } else if (
     nameInput.value.match(nameValid) &&
     emailInput.value.match(emailValid)
@@ -159,37 +226,13 @@ validateInput = () => {
 
 // knapp hentet fra HTML for å kjøre validering
 const newUserBtn = document.getElementById("input-btn");
-newUserBtn.addEventListener("click", () => {
-  validateInput();
-});
-
-// array for course-examples
-const courses = [
-  {
-    id: 1,
-    name: "HTML and its role in web development",
-  },
-  {
-    id: 2,
-    name: "JavaScript for beginners",
-  },
-  {
-    id: 3,
-    name: "TypeScript",
-  },
-  {
-    id: 4,
-    name: "NodeJS introduction",
-  },
-  {
-    id: 5,
-    name: "C# explained",
-  },
-];
-
-//expandCoursesBtn.addEventListener("click", createCourseList);
+newUserBtn.addEventListener("click", validateInput);
 
 /* // delete user from list
 deleteUser = () => {
   this.remove();
 };*/
+
+/* deleteUser = (e) => {
+  e.parentElement.parentElement.remove();
+} */
