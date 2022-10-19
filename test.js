@@ -53,3 +53,64 @@ start = async () => {
 
 start();
 //print bruker detaljer
+
+/*
+const createElement = ({ type, id, value}) => {
+      const newElement = document.createElement(type);
+      newElement.innerHTML = value;
+      if (id !== undefined) {
+        newElement.setAttribute('id', id);
+      }
+      return newElement;
+    }
+
+    const createInput = ({ type, onClick, value, onChange }) => {
+      let updatedValue = value;
+      const newInput = document.createElement('input');
+      newInput.setAttribute('type', type);
+      newInput.addEventListener('click', (e) => {
+        if (onClick !== undefined) {
+          onClick(e);
+      }});
+      newInput.setAttribute('value', updatedValue);
+      newInput.addEventListener('change', (e) => {
+        updatedValue = e.target.value;
+      })
+      newInput.addEventListener('blur', () => {
+        onChange(updatedValue);
+      })
+      return newInput;
+    }
+ 
+    const liElement = document.getElementById('li1');
+    liElement.appendChild(createElement({ type: 'p', value: 'Navn'}));
+    liElement.appendChild(createElement({ type: 'p', value: 'By'}));
+    liElement.appendChild(createElement({ type: 'p', value: 'Epost'}));
+
+    liElement.appendChild(createInput({
+      type: 'text',
+      onChange: (value) => {
+        console.log('value', value);
+      },
+      value: 'Robin og Batman'
+    })); 
+
+    // eksempel 2
+
+    const createElement = ({ type, id, value = ''}) => {
+      const newElement = document.createElement(type);
+      newElement.innerHTML = value;
+      if (id !== undefined) {
+        newElement.setAttribute('id', id);
+      }
+      return newElement;
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const liElement = createElement({ type: 'li'});
+      liElement.appendChild(createElement({ type: 'p', value: brukere[i].navn}));
+      liElement.appendChild(createElement({ type: 'p', value: brukere[i].by}));
+      liElement.appendChild(createElement({ type: 'p', value: brukere[i].city}));
+      document.getElementById('list').appendChild(liElement);
+    }
+*/

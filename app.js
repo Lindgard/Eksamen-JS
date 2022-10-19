@@ -19,9 +19,101 @@ getUsers = async (amount) => {
 placeDataArray = async (apiUsers) => {
   apiUsers = await getUsers(10);
   console.log(apiUsers);
+  printUsersToPage("user-list", apiUsers, inputData);
 };
 
 placeDataArray();
+
+// Print-funksjon for å lage liste synlig på siden med 9 brukere
+// fra API pluss data fra input-felt med kurs i dropdown via knapp lagd over
+expandedUser = (listId, createInput, courses) => {
+  const userDetails = document.getElementById(`${listId}-details`);
+  console.log("clicked", userDetails);
+  if (userDetails === null) {
+    const listItem = document.getElementById(listId);
+    const details = document.createElement("div");
+    details.setAttribute("id", `${listId}-details`);
+    details.innerHTML = "testing";
+    details.appendChild(
+      createInput({
+        type: "checkbox",
+        id: `checkbox-${listId}`,
+      })
+    );
+    listItem.appendChild(details);
+  } else {
+    userDetails.remove();
+  }
+};
+
+printUsersToPage = (listId, apiUsers, inputData) => {
+  const mergedArray = [...inputData, ...apiUsers];
+  const userList = document.getElementById(listId);
+  userList.innerHTML = "";
+  for (let i = 0; i < mergedArray.length; i++) {
+    const user = mergedArray[i];
+    const listItem = document.createElement("li");
+    listItem.setAttribute("id", `user-${i}`);
+    listItem.setAttribute("class", "list-item");
+    listItem.appendChild(
+      createElement({
+        type: "p",
+        value: `${user.name.first} ${user.name.last}`,
+      })
+    );
+    listItem.appendChild(
+      createElement({
+        type: "p",
+        value: `${user.phone}`,
+      })
+    );
+    listItem.appendChild(
+      createElement({
+        type: "p",
+        value: `${user.city.city}, ${user.city.country}`,
+      })
+    );
+    listItem.appendChild(
+      createElement({
+        type: "img",
+        value: `${user.image.thumbnail}`,
+      })
+    );
+    listItem.addEventListener("click", () => {
+      expandedUser(`user-${i}`, createInput, courses);
+    });
+    userList.appendChild(listItem);
+  }
+};
+
+// creation of inputs and elements for list in DOM
+const createInput = ({ type, onClick, value, onChange }) => {
+  let updatedValue = value;
+  const newInput = document.createElement("input");
+  newInput.setAttribute("type", type);
+  newInput.addEventListener("click", (e) => {
+    if (onClick !== undefined) {
+      onClick(e);
+    }
+  });
+  newInput.setAttribute("value", updatedValue);
+  newInput.addEventListener("change", (e) => {
+    updatedValue = e.target.value;
+  });
+  newInput.addEventListener("blur", () => {
+    onChange(updatedValue);
+  });
+  return newInput;
+};
+
+const createElement = ({ type, id, value }) => {
+  const newElement = document.createElement(type);
+  newElement.innerHTML = value;
+  if (id !== undefined) {
+    newElement.setAttribute("id", id);
+  }
+  return newElement;
+};
 
 // Regex for validering av input-data
 const nameValid = /^[A-Za-z|æøåÆØÅ ]+$/; //la til at navn skal kunne inneholde norske bokstaver
@@ -67,7 +159,9 @@ validateInput = () => {
 
 // knapp hentet fra HTML for å kjøre validering
 const newUserBtn = document.getElementById("input-btn");
-newUserBtn.addEventListener("click", validateInput);
+newUserBtn.addEventListener("click", () => {
+  validateInput();
+});
 
 // array for course-examples
 const courses = [
@@ -93,62 +187,7 @@ const courses = [
   },
 ];
 
-// creation of course-list with checkboxes for registration of chosen courses
-// createCourseList = (checboxCourses) => {
-//   const courseList = document.createElement("ul");
-//   // forEach her eller i checkboxCourses?
-//   courses.forEach((course) => {
-//     const element = document.createElement("h4");
-//     // createElement med kursa
-//     element.innerHTML = `${checboxCourses}`;
-//     courseList.appendChild(element);
-//   });
-// };
-
-// createCourseList();
-
-// // checkbox-creation for course-list
-// checboxCourses = (courses) => {
-//   courses.forEach(() => {
-//     const checkbox = document.createElement("input");
-//     checkbox.type = "checkbox";
-//     checkbox.id = "course-checkbox";
-
-//     const checkboxLabel = document.createElement("label");
-//     checkboxLabel.innerHTML = `${courses.name}`;
-//     checkboxLabel.htmlFor = "course-checkbox";
-//     // lagre i localStorage kanskje?
-//   });
-// };
-
-// checboxCourses();
-
-// button for showing list of  courses and additional information from list
-// used in printUsersToPage
-const expandCoursesBtn = document.createElement("button");
-expandCoursesBtn.classList.add("expand-btn");
-expandCoursesBtn.innerHTML = "+";
 //expandCoursesBtn.addEventListener("click", createCourseList);
-
-// Print-funksjon for å lage liste synlig på siden med 9 brukere
-// fra API pluss data fra input-felt med kurs i dropdown via knapp lagd over
-printUsersToPage = (listId, apiUsers, inputData) => {
-  const mergedArray = [...inputData, ...apiUsers];
-  const userList = document.getElementById(listId);
-  userList.innerHTML = "";
-  const listItem = document.createElement("li");
-  for (let i = 0; i < mergedArray.length; i++) {
-    const user = mergedArray[i];
-    listItem.setAttribute("id", `user-${i}`);
-    listItem.classList.add("list-item");
-    listItem.innerHTML = `
-      ${user.name.first} ${user.name.last}
-      ${user.city.city}, ${user.city.country}`;
-  }
-  userList.appendChild(listItem);
-};
-
-printUsersToPage("user-list", apiUsers, inputData);
 
 /* // delete user from list
 deleteUser = () => {
