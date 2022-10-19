@@ -118,22 +118,16 @@ printUsersToPage = (listId, usersArray) => {
       createInput({
         type: "button",
         value: "Edit",
-        onclick: onChange,
-        onChange: () => {
-          addEventListener("click", () => {
-      expandedUser(`user-${i}`, createInput, courses);
-    });
+        onChange: (value) => {
+          console.log("value", value);
         },
       })
     );
-    listItem.appendChild(createInput({
-      type: 'button',
-      value: 'Courses',
-      id: "courses-btn"
-      addEventListener("click", () => {
+    // change the eventListener below to be attached to
+    // a button appended to listItem for courses
+    listItem.addEventListener("click", () => {
       expandedUser(`user-${i}`, createInput, courses);
     });
-    }))
     userList.appendChild(listItem);
   }
 };
