@@ -51,21 +51,30 @@ const courses = [
 
 // Print-funksjon for å lage liste synlig på siden med 9 brukere
 // fra API pluss data fra input-felt med kurs i dropdown via knapp lagd over
-expandedUser = (listId, createInput, courses) => {
+showCourses = (listId, createInput, courses) => {
   const userDetails = document.getElementById(`${listId}-details`);
   console.log("clicked", userDetails);
   if (userDetails === null) {
     const listItem = document.getElementById(listId);
     const details = document.createElement("div");
     details.setAttribute("id", `${listId}-details`);
-    details.appendChild(
-      createInput({
-        type: "checkbox",
-        id: `checkbox-${listId}`,
-        /*value: `${courses[i].name}`,*/
-      })
-    );
-    listItem.appendChild(details);
+    details.setAttribute("class", "course-div");
+    for (let i = 0; i < courses.length; i++) {
+      details.appendChild(
+        createInput({
+          type: "checkbox",
+          id: `checkbox-${listId}`,
+        })
+      );
+      details.appendChild(
+        createElement({
+          type: "label",
+          id: `label-${listId}`,
+          value: `${courses[i].name}`,
+        })
+      );
+      listItem.appendChild(details);
+    }
   } else {
     userDetails.remove();
   }
@@ -87,7 +96,7 @@ printUsersToPage = (listId, usersArray) => {
     );
     if (user.dob !== undefined) {
       listItem.appendChild(
-        createElement({ type: "p", value: `${user.dob.date}` })
+        createElement({ type: "p", value: `Age: ${user.dob.age}` })
       );
     }
     if (user.email !== undefined) {
@@ -118,31 +127,54 @@ printUsersToPage = (listId, usersArray) => {
       createInput({
         type: "button",
         value: "Edit",
-        onChange: (value) => {
-          console.log("value", value);
+        onClick: () => {
+          updateUser(users[i]);
         },
       })
     );
-    // change the eventListener below to be attached to
-    // a button appended to listItem for courses
-    listItem.addEventListener("click", () => {
-      expandedUser(`user-${i}`, createInput, courses);
-    });
+    listItem.appendChild(
+      createInput({
+        type: "button",
+        value: "Courses",
+        onClick: () => {
+          showCourses(`user-${i}`, createInput, courses);
+        },
+      })
+    );
+    // listItem.appendChild(
+    //   createInput({
+    //     type: "button",
+    //     id: "delete-btn",
+    //     value: "Delete User",
+    //     onClick: () => {
+    //       deleteUser(`user-${i}`);
+    //     },
+    //   })
+    // );
     userList.appendChild(listItem);
   }
 };
 
 //button for expanding list
 const moreUsers = document.createElement("button");
-moreUsers.addEventListener("click", printUsersToPage);
+moreUsers.innerHTML = "Expand List";
+moreUsers.addEventListener("click", printUsersToPage("user-list", usersArray));
 
 //update-function
 setUser = (user) => {
   console.log("klikket på bruker", user);
   user = nameInput.value;
+  // kode som setter navnet på bruker som verdi på nameInput
+  // kode som lar oss oppdatere verdien av nameInput
 };
 
-updateUser = () => {};
+updateUser = () => {
+  // kode som henter verdi fra input
+  // kode som finner riktig bruker i listen
+  // kode som oppdaterer riktig bruker med verdi fra input
+  // kode som printer liste på nytt
+  // kode som nuller ut inputfelt
+};
 
 // creation of inputs and elements for list in DOM
 const createInput = ({ type, onClick, value, onChange }) => {
@@ -180,7 +212,7 @@ const phoneValid = /^\+(?:[0-9]\x20?){6,14}[0-9]$/;
 
 // Input-felt hentet fra HTML
 const nameInput = document.getElementById("name-input");
-nameInput.setAttribute("value", " ");
+nameInput.setAttribute("value", "");
 const emailInput = document.getElementById("email-input");
 const phoneInput = document.getElementById("phone-input");
 
@@ -218,15 +250,12 @@ validateInput = () => {
   }
 };
 
-// knapp hentet fra HTML for å kjøre validering
+// knapp hentet fra HTML for å kjøre validering og legge ny bruker til liste
 const newUserBtn = document.getElementById("input-btn");
 newUserBtn.addEventListener("click", validateInput);
 
-/* // delete user from list
-deleteUser = () => {
-  this.remove();
-};*/
-
-/* deleteUser = (e) => {
-  e.parentElement.parentElement.remove();
-} */
+// delete user from list
+// deleteUser = (user) => {
+//   item.remove();
+//   user.splice(i, 1);
+// };
