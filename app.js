@@ -127,8 +127,9 @@ printUsersToPage = (listId, usersArray) => {
       createInput({
         type: "button",
         value: "Edit",
-        onClick: () => {
-          updateUser(users[i]);
+        onClick: (usersArray) => {
+          console.log(`${usersArray[i]}`);
+          setUser(`${usersArray[i]}`);
         },
       })
     );
@@ -141,16 +142,16 @@ printUsersToPage = (listId, usersArray) => {
         },
       })
     );
-    // listItem.appendChild(
-    //   createInput({
-    //     type: "button",
-    //     id: "delete-btn",
-    //     value: "Delete User",
-    //     onClick: () => {
-    //       deleteUser(`user-${i}`);
-    //     },
-    //   })
-    // );
+    listItem.appendChild(
+      createInput({
+        type: "button",
+        id: "delete-btn",
+        value: "Delete User",
+        onClick: () => {
+          deleteUser();
+        },
+      })
+    );
     userList.appendChild(listItem);
   }
 };
@@ -163,17 +164,17 @@ moreUsers.addEventListener("click", printUsersToPage("user-list", usersArray));
 //update-function
 setUser = (user) => {
   console.log("klikket på bruker", user);
-  user = nameInput.value;
   // kode som setter navnet på bruker som verdi på nameInput
+  user = nameInput.value;
   // kode som lar oss oppdatere verdien av nameInput
 };
 
-updateUser = () => {
-  // kode som henter verdi fra input
+updateUser = (user) => {
+  // kode som henter verdi fra input felt
   // kode som finner riktig bruker i listen
-  // kode som oppdaterer riktig bruker med verdi fra input
-  // kode som printer liste på nytt
-  // kode som nuller ut inputfelt
+  //kode som oppdateerer riktig bruker med verdi fra input
+  //kode som printer listen på nytt
+  //kode som nuller ut input
 };
 
 // creation of inputs and elements for list in DOM
@@ -212,7 +213,6 @@ const phoneValid = /^\+(?:[0-9]\x20?){6,14}[0-9]$/;
 
 // Input-felt hentet fra HTML
 const nameInput = document.getElementById("name-input");
-nameInput.setAttribute("value", "");
 const emailInput = document.getElementById("email-input");
 const phoneInput = document.getElementById("phone-input");
 
@@ -232,6 +232,9 @@ validateInput = () => {
     });
     printUsersToPage("user-list", usersArray);
     console.log(usersArray);
+    nameInput.value = "";
+    emailInput.value = "";
+    phoneInput.value = "";
   } else if (
     nameInput.value.match(nameValid) &&
     emailInput.value.match(emailValid)
@@ -259,3 +262,17 @@ newUserBtn.addEventListener("click", validateInput);
 //   item.remove();
 //   user.splice(i, 1);
 // };
+
+/* localStorage example begun */
+// try {
+//   if (localStorage.getitem("users") === null) {
+//     localStorage.setItem("users", JSON.stringify(usersArray));
+//   } else {
+//     let storage = JSON.parse(localstorage.getItem("users"));
+//     storage.push(user);
+//     localStorage.setItem("users", JSON.stringify(storage));
+//     console.log(storage);
+//   }
+// } catch (error) {
+//   console.log(error);
+// }
