@@ -67,7 +67,7 @@ showCourses = (listId, createInput, courses) => {
         })
       );
       details.appendChild(
-        createElement({
+        createNewElement({
           type: "label",
           id: `label-${listId}`,
           value: `${courses[i].name}`,
@@ -89,19 +89,19 @@ printUsersToPage = (listId, usersArray) => {
     listItem.setAttribute("id", `user-${i}`);
     listItem.setAttribute("class", "list-item");
     listItem.appendChild(
-      createElement({
+      createNewElement({
         type: "p",
         value: `Name: ${user.name.first} ${user.name.last}`,
       })
     );
     if (user.dob !== undefined) {
       listItem.appendChild(
-        createElement({ type: "p", value: `Age: ${user.dob.age}` })
+        createNewElement({ type: "p", value: `Age: ${user.dob.age}` })
       );
     }
     if (user.email !== undefined) {
       listItem.appendChild(
-        createElement({
+        createNewElement({
           type: "p",
           value: `Phone: ${user.phone} Email: ${user.email}`,
         })
@@ -109,7 +109,7 @@ printUsersToPage = (listId, usersArray) => {
     }
     if (user.city !== undefined) {
       listItem.appendChild(
-        createElement({
+        createNewElement({
           type: "p",
           value: `City: ${user.city.city}, ${user.city.country}`,
         })
@@ -117,7 +117,7 @@ printUsersToPage = (listId, usersArray) => {
     }
     if (user.image !== undefined) {
       listItem.appendChild(
-        createElement({
+        createNewElement({
           type: "img",
           value: `${user.image.thumbnail}`,
         })
@@ -148,7 +148,12 @@ printUsersToPage = (listId, usersArray) => {
         id: "delete-btn",
         value: "Delete User",
         onClick: () => {
-          deleteUser();
+          deleteUser = (user) => {
+            console.log("delete", user);
+            let item = document.querySelector(`#user-${i}`);
+            item.remove();
+            user.splice(i, 1);
+          };
         },
       })
     );
@@ -165,6 +170,7 @@ moreUsers.addEventListener("click", printUsersToPage("user-list", usersArray));
 setUser = (user) => {
   console.log("klikket på bruker", user);
   // kode som setter navnet på bruker som verdi på nameInput
+  const nameInput = document.getElementById("name-input");
   user = nameInput.value;
   // kode som lar oss oppdatere verdien av nameInput
 };
@@ -178,7 +184,7 @@ updateUser = (user) => {
 };
 
 // creation of inputs and elements for list in DOM
-const createInput = ({ type, onClick, value, onChange }) => {
+createInput = ({ type, onClick, value, onChange }) => {
   let updatedValue = value;
   const newInput = document.createElement("input");
   newInput.setAttribute("type", type);
@@ -197,7 +203,7 @@ const createInput = ({ type, onClick, value, onChange }) => {
   return newInput;
 };
 
-const createElement = ({ type, id, value }) => {
+createNewElement = ({ type, id, value }) => {
   const newElement = document.createElement(type);
   newElement.innerHTML = value;
   if (id !== undefined) {
@@ -257,8 +263,9 @@ validateInput = () => {
 const newUserBtn = document.getElementById("input-btn");
 newUserBtn.addEventListener("click", validateInput);
 
-// delete user from list
+//delete user from list
 // deleteUser = (user) => {
+//   const item = document.querySelector(`#user-${i}`);
 //   item.remove();
 //   user.splice(i, 1);
 // };
