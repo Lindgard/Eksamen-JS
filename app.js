@@ -8,10 +8,6 @@ getUsers = async (amount) => {
       name: user.name,
       email: user.email,
       phone: user.phone,
-      city: user.location,
-      dob: user.dob,
-      nationality: user.nat,
-      image: user.picture,
     };
   });
 };
@@ -94,11 +90,6 @@ printUsersToPage = (listId, usersArray) => {
         value: `Name: ${user.name.first} ${user.name.last}`,
       })
     );
-    if (user.dob !== undefined) {
-      listItem.appendChild(
-        createNewElement({ type: "p", value: `Age: ${user.dob.age}` })
-      );
-    }
     if (user.email !== undefined) {
       listItem.appendChild(
         createNewElement({
@@ -107,29 +98,12 @@ printUsersToPage = (listId, usersArray) => {
         })
       );
     }
-    if (user.city !== undefined) {
-      listItem.appendChild(
-        createNewElement({
-          type: "p",
-          value: `City: ${user.city.city}, ${user.city.country}`,
-        })
-      );
-    }
-    if (user.image !== undefined) {
-      listItem.appendChild(
-        createNewElement({
-          type: "img",
-          value: `${user.image.thumbnail}`,
-        })
-      );
-    }
     listItem.appendChild(
       createInput({
         type: "button",
         value: "Edit",
         onClick: (usersArray) => {
-          console.log(`${usersArray[i]}`);
-          setUser(`${usersArray[i]}`);
+          setUser(user);
         },
       })
     );
@@ -148,12 +122,7 @@ printUsersToPage = (listId, usersArray) => {
         id: "delete-btn",
         value: "Delete User",
         onClick: () => {
-          deleteUser = (user) => {
-            console.log("delete", user);
-            let item = document.querySelector(`#user-${i}`);
-            item.remove();
-            user.splice(i, 1);
-          };
+          deleteUser(user);
         },
       })
     );
@@ -167,19 +136,29 @@ showUsers.addEventListener("click", printUsersToPage("user-list", usersArray));
 
 //update-function
 setUser = (user) => {
-  console.log("klikket på bruker", user);
-  // kode som setter navnet på bruker som verdi på nameInput
-  const nameInput = document.getElementById("name-input");
-  user = nameInput.value;
-  // kode som lar oss oppdatere verdien av nameInput
+  nameInput.value = `${user.name.first} ${user.name.last}`;
+  emailInput.value = `${user.email}`;
+  phoneInput.value = `${user.phone}`;
 };
 
-updateUser = (user) => {
-  // kode som henter verdi fra input felt
-  // kode som finner riktig bruker i listen
-  //kode som oppdateerer riktig bruker med verdi fra input
-  //kode som printer listen på nytt
-  //kode som nuller ut input
+updateUser = () => {
+  setUser();
+  // finne riktig bruker
+  // oppdatere riktig bruker med verdi fra setUser()
+  // tegne opp liste på nytt
+  //nulle ut input-felt
+};
+
+//delete user from list
+deleteUser = () => {
+  console.log("button clicked");
+  for (let i = 0; i <= usersArray.length; i++) {
+    // if-statement inn her for å sjekke at man er på riktig bruker for sletting
+    const user = usersArray[i];
+    user.remove();
+    usersArray.splice(i, 1);
+  }
+  printUsersToPage("user-list", usersArray);
 };
 
 // creation of inputs and elements for list in DOM
@@ -201,9 +180,9 @@ createInput = ({ type, onClick, value, onChange }) => {
       console.log("checkbox is not checked");
     }
   });
-  newInput.addEventListener("blur", () => {
-    onChange(updatedValue);
-  });
+  // newInput.addEventListener("blur", () => {
+  //   onChange(updatedValue);
+  // });
   return newInput;
 };
 
@@ -266,13 +245,6 @@ validateInput = () => {
 // knapp hentet fra HTML for å kjøre validering og legge ny bruker til liste
 const newUserBtn = document.getElementById("input-btn");
 newUserBtn.addEventListener("click", validateInput);
-
-//delete user from list
-// deleteUser = (user) => {
-//   const item = document.querySelector(`#user-${i}`);
-//   item.remove();
-//   user.splice(i, 1);
-// };
 
 /* localStorage example begun */
 // try {

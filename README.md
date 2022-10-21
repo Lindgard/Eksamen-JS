@@ -3,8 +3,8 @@
 ## Krav
 
 1. [ ] CRUD
-   1. [ ] Create
-   2. [ ] Read
+   1. [x] Create
+   2. [x] Read
    3. [ ] Update
    4. [ ] Delete
 2. [x] Fetch
@@ -13,7 +13,7 @@
    2. [ ] Filter
    3. [ ] Splice
    4. [ ] To Be Continued
-4. [ ] If/Else
+4. [x] If/Else
 5. [ ] Loops
    1. [x] For
    2. [ ] While
