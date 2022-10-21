@@ -162,9 +162,8 @@ printUsersToPage = (listId, usersArray) => {
 };
 
 //button for expanding list
-const moreUsers = document.createElement("button");
-moreUsers.innerHTML = "Expand List";
-moreUsers.addEventListener("click", printUsersToPage("user-list", usersArray));
+const showUsers = document.getElementById("show-users");
+showUsers.addEventListener("click", printUsersToPage("user-list", usersArray));
 
 //update-function
 setUser = (user) => {
@@ -196,6 +195,11 @@ createInput = ({ type, onClick, value, onChange }) => {
   newInput.setAttribute("value", updatedValue);
   newInput.addEventListener("change", (e) => {
     updatedValue = e.target.value;
+    if (e.target.checked) {
+      console.log("checkbox is checked");
+    } else {
+      console.log("checkbox is not checked");
+    }
   });
   newInput.addEventListener("blur", () => {
     onChange(updatedValue);

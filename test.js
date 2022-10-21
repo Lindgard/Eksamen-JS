@@ -54,7 +54,7 @@ start = async () => {
 start();
 //print bruker detaljer
 
-const createElement = ({ type, id, value }) => {
+const createNewElement = ({ type, id, value }) => {
   const newElement = document.createElement(type);
   newElement.innerHTML = value;
   if (id !== undefined) {
