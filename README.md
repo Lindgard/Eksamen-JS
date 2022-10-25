@@ -11,7 +11,7 @@
 3. [x] Arrays med objects
    1. [x] Map
    2. [ ] Filter
-   3. [ ] Splice
+   3. [x] Splice
    4. [ ] To Be Continued
 4. [x] If/Else
 5. [ ] Loops

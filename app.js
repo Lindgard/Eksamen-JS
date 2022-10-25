@@ -162,7 +162,7 @@ deleteUser = () => {
 };
 
 // creation of inputs and elements for list in DOM
-createInput = ({ type, onClick, value, onChange }) => {
+createInput = ({ type, onClick, value }) => {
   let updatedValue = value;
   const newInput = document.createElement("input");
   newInput.setAttribute("type", type);
@@ -180,9 +180,6 @@ createInput = ({ type, onClick, value, onChange }) => {
       console.log("checkbox is not checked");
     }
   });
-  // newInput.addEventListener("blur", () => {
-  //   onChange(updatedValue);
-  // });
   return newInput;
 };
 
